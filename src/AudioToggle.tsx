@@ -6,30 +6,108 @@ type Props = {
 
 const AudioToggle: React.FC<Props> = ({ src = '/assets/recitation.mp3' }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const oscRef = useRef<OscillatorNode | null>(null);
+  const ctxRef = useRef<AudioContext | null>(null);
+  const gainRef = useRef<GainNode | null>(null);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    audioRef.current = new Audio(src);
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.18; // low-volume ambient
+    // Try to load the audio file; if it doesn't exist or cannot play, we'll use WebAudio fallback.
+    const a = new Audio();
+    a.src = src;
+    a.loop = true;
+    a.volume = 0.18;
+    audioRef.current = a;
+
+    const onErr = () => {
+      // cleanup audioRef since file not available
+      audioRef.current = null;
+    };
+
+    // attempt to load metadata; if it errors, we'll fallback later on play
+    a.addEventListener('error', onErr);
+
     return () => {
+      a.removeEventListener('error', onErr);
       audioRef.current?.pause();
       audioRef.current = null;
+      if (oscRef.current) {
+        oscRef.current.stop();
+        oscRef.current.disconnect();
+        oscRef.current = null;
+      }
+      if (gainRef.current) {
+        gainRef.current.disconnect();
+        gainRef.current = null;
+      }
+      if (ctxRef.current) {
+        try { ctxRef.current.close(); } catch {}
+        ctxRef.current = null;
+      }
     };
   }, [src]);
 
+  const startFallback = async () => {
+    if (ctxRef.current) return;
+    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const gain = ctx.createGain();
+    gain.gain.value = 0.02; // very low ambient level
+    gain.connect(ctx.destination);
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = 220; // low hum
+    osc.connect(gain);
+    osc.start();
+    ctxRef.current = ctx;
+    oscRef.current = osc;
+    gainRef.current = gain;
+  };
+
+  const stopFallback = () => {
+    if (oscRef.current) {
+      try { oscRef.current.stop(); } catch {}
+      oscRef.current.disconnect();
+      oscRef.current = null;
+    }
+    if (gainRef.current) {
+      gainRef.current.disconnect();
+      gainRef.current = null;
+    }
+    if (ctxRef.current) {
+      try { ctxRef.current.close(); } catch {}
+      ctxRef.current = null;
+    }
+  };
+
   const toggle = async () => {
-    if (!audioRef.current) return;
-    try {
-      if (playing) {
+    // Prefer HTMLAudio if it's loaded and can play
+    if (playing) {
+      if (audioRef.current) {
         audioRef.current.pause();
-        setPlaying(false);
       } else {
+        stopFallback();
+      }
+      setPlaying(false);
+      return;
+    }
+
+    if (audioRef.current) {
+      try {
         await audioRef.current.play();
         setPlaying(true);
+        return;
+      } catch (e) {
+        // fall through to fallback
       }
+    }
+
+    // Start WebAudio fallback
+    try {
+      await startFallback();
+      setPlaying(true);
     } catch (e) {
-      // autoplay/gesture restrictions may block play; still toggle state
       setPlaying(false);
     }
   };
