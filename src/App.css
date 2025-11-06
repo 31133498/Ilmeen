@@ -183,6 +183,21 @@ body {
   transform: translateY(-2px);
 }
 
+/* Gold shimmer animation for primary CTA */
+.cta-button.primary {
+  position: relative;
+  overflow: hidden;
+}
+.cta-button.primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.02) 100%);
+  transform: translateX(-120%);
+  transition: transform 0.9s ease;
+}
+.cta-button.primary:hover::after { transform: translateX(120%); }
+
 /* Section Styles */
 section {
   padding: 5rem 2rem;

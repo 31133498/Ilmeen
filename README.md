@@ -8,6 +8,14 @@ This commit includes a redesigned, responsive, luxury-style landing page for Ilm
 - High-quality imagery referenced from Unsplash (remote URLs used so no large assets added locally)
 - Fonts: Amiri (Arabic serif) + Poppins (body) are referenced in `index.html`
 
+	To download local copies into `public/assets/` (recommended for stability and offline previews), run the included PowerShell helper script:
+
+```powershell
+cd "c:\Users\HP\Desktop\Shazily Projects\Ilmeen"
+.\scripts\download-assets.ps1
+```
+
+This will create `public/assets/hero.jpg`, `before.jpg`, `after.jpg`, and `phone.jpg`. After downloading run `npm run build` to include them in the production build.
 How to run locally
 
 1. Install deps:

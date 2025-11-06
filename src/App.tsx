@@ -2,10 +2,14 @@ import React from 'react';
 import './App.css';
 import Showcase from './Showcase';
 
-const heroBg = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=80';
-const classroomBefore = 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1200&q=80';
-const classroomAfter = 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80';
-const phoneMock = 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=60';
+// Local-first asset paths (place images into public/assets/) with remote fallbacks
+const heroLocal = '/assets/hero.jpg';
+const beforeLocal = '/assets/before.jpg';
+const beforeRemote = 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1200&q=80';
+const afterLocal = '/assets/after.jpg';
+const afterRemote = 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80';
+const phoneLocal = '/assets/phone.jpg';
+const phoneRemote = 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=60';
 
 const App: React.FC = () => {
   return (
@@ -19,7 +23,7 @@ const App: React.FC = () => {
         </ul>
       </nav>
 
-      <header className="hero" style={{backgroundImage: `url(${heroBg})`}}>
+      <header className="hero" style={{backgroundImage: `url(${heroLocal}), linear-gradient(180deg, rgba(2,42,31,0.6), rgba(2,42,31,0.2))`}}>
         <div className="hero-overlay" />
         <div className="hero-content">
           <div className="hero-left">
@@ -37,7 +41,11 @@ const App: React.FC = () => {
           </div>
           <div className="hero-right">
             <div className="phone-mockup">
-              <img src={phoneMock} alt="App mockup" />
+              <img
+                src={phoneLocal}
+                alt="App mockup"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = phoneRemote; }}
+              />
             </div>
           </div>
         </div>
@@ -48,13 +56,13 @@ const App: React.FC = () => {
           <h2>Why Ilmeen?</h2>
           <div className="problem-split">
             <div className="problem-side before">
-              <img src={classroomBefore} alt="students before Ilmeen" />
+              <img src={beforeLocal} alt="students before Ilmeen" onError={(e)=> (e.currentTarget as HTMLImageElement).src = beforeRemote} />
               <h3>Before Ilmeen</h3>
               <p>Many non-native Arabic learners struggle to understand, memorize, and pronounce Arabic correctly.</p>
               <p>In Nigeria and West Africa, most schools lack qualified teachers and digital tools — causing frustration and lost motivation.</p>
             </div>
             <div className="problem-side after">
-              <img src={classroomAfter} alt="students after Ilmeen" />
+              <img src={afterLocal} alt="students after Ilmeen" onError={(e)=> (e.currentTarget as HTMLImageElement).src = afterRemote} />
               <h3>With Ilmeen</h3>
               <p>Ilmeen brings ease and independence to Arabic learning. Diacritization, audio, and grammar insights — all in one app.</p>
             </div>
@@ -93,8 +101,8 @@ const App: React.FC = () => {
           <p>Ilmeen doesn’t just translate — it teaches, guides, and helps you understand.</p>
             <div className="showcase-mockup">
               <div className="mockup-card">
-                <Showcase before={classroomBefore} after={classroomAfter} altBefore="Before Ilmeen" altAfter="After Ilmeen" />
-              </div>
+              <Showcase before={beforeLocal} after={afterLocal} altBefore="Before Ilmeen" altAfter="After Ilmeen" />
+            </div>
             </div>
         </section>
 
