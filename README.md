@@ -16,6 +16,7 @@ cd "c:\Users\HP\Desktop\Shazily Projects\Ilmeen"
 ```
 
 This will create `public/assets/hero.jpg`, `before.jpg`, `after.jpg`, and `phone.jpg`. After downloading run `npm run build` to include them in the production build.
+
 How to run locally
 
 1. Install deps:
@@ -38,6 +39,20 @@ npm run build
 npm run preview
 # preview will start a local server (Vite preview)
 ```
+
+Optional: Add a recitation/ambient audio file to `public/assets/recitation.mp3` if you want the AudioToggle to play something. If the file is not present the app will use a low-volume WebAudio oscillator fallback.
+
+Deploying to Vercel
+
+1. Go to https://vercel.com and log in.
+2. Import your GitHub repository (31133498/Ilmeen) into Vercel using "New Project → Import Git Repository".
+3. Vercel should auto-detect a static build. Set (if asked):
+	- Build Command: npm run build
+	- Output Directory: dist
+4. (Optional) Add any environment variables in Vercel dashboard if your app needs them.
+5. Deploy. Vercel will run the build and serve the content from the `dist` folder.
+
+I added `vercel.json` to the repo to help Vercel detect the static build output and routing.
 
 Git / Push
 
