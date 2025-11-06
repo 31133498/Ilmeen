@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Showcase from './Showcase';
 
 const heroBg = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=80';
 const classroomBefore = 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1200&q=80';
@@ -90,11 +91,11 @@ const App: React.FC = () => {
         <section className="showcase">
           <h2>Ilmeen in Action</h2>
           <p>Ilmeen doesn’t just translate — it teaches, guides, and helps you understand.</p>
-          <div className="showcase-mockup">
-            <div className="mockup-card">
-              <img src={phoneMock} alt="Ilmeen app preview" />
+            <div className="showcase-mockup">
+              <div className="mockup-card">
+                <Showcase before={classroomBefore} after={classroomAfter} altBefore="Before Ilmeen" altAfter="After Ilmeen" />
+              </div>
             </div>
-          </div>
         </section>
 
         <section className="audience">
