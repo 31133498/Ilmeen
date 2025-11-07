@@ -14,10 +14,10 @@ from django.utils import timezone
 
 # Try to import AI services
 try:
-    import google.generativeai as genai
+    from google import genai
     GEMINI_AVAILABLE = True
     if settings.GEMINI_API_KEY:
-        genai.configure(api_key=settings.GEMINI_API_KEY)
+        gemini_client = genai.Client(api_key=settings.GEMINI_API_KEY)
 except ImportError:
     GEMINI_AVAILABLE = False
 
@@ -68,8 +68,11 @@ def call_ai_api(prompt):
     """Call AI API with fallback options"""
     if GEMINI_AVAILABLE and settings.GEMINI_API_KEY:
         try:
-            model = genai.GenerativeModel('gemini-pro')
-            response = model.generate_content(prompt)
+            model_id = 'gemini-2.5-flash'
+            response = gemini_client.models.generate_content(
+                model=model_id,
+                contents=prompt
+            )
             return response.text
         except Exception as e:
             print(f"Gemini error: {e}")
