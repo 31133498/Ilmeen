@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Upload } from 'lucide-react';
+import { Camera, Upload, Mic, Volume2, VolumeX, FileText } from 'lucide-react';
 
 type PageType = 
   | 'landing' 
@@ -19,9 +19,24 @@ interface ScannerProps {
 export const Scanner: React.FC<ScannerProps> = ({ onNavigate }) => {
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [analysis, setAnalysis] = useState<string>('');
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [textInput, setTextInput] = useState('');
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadedAudio, setUploadedAudio] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const audioInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+
+  const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+  const groqApiUrl = "https://api.groq.com/openai/v1/chat/completions";
+  const groqVoiceApiUrl = "https://api.groq.com/openai/v1/audio/transcriptions";
+  const model = "llama-3.3-70b-versatile";
+  const voiceModel = "whisper-large-v3";
+  const pdfVisionModel = "llama-3.2-90b-vision-preview";
 
   const handleTakePhoto = async () => {
     try {
