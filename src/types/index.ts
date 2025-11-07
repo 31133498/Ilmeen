@@ -73,7 +73,11 @@ export type PageType =
   | 'grammar' 
   | 'progress' 
   | 'library' 
-  | 'settings';
+  | 'settings'
+  | 'practice'
+  | 'memorization'
+  | 'tafsir'
+  | 'challenges';
 
 // Re-export for better compatibility
-export { PageType as Page };
+export type { PageType as Page };

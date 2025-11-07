@@ -10,7 +10,11 @@ type PageType =
   | 'grammar' 
   | 'progress' 
   | 'library' 
-  | 'settings';
+  | 'settings'
+  | 'practice'
+  | 'challenges'
+  | 'memorization'
+  | 'tafsir';
 
 interface ScannerProps {
   onNavigate: (page: PageType) => void;
@@ -67,7 +71,7 @@ export const Scanner: React.FC<ScannerProps> = ({ onNavigate }) => {
     }
   };
 
-  const processImage = (imageData: string) => {
+  const processImage = (_imageData: string) => {
     setIsProcessing(true);
     
     // Simulate OCR processing
