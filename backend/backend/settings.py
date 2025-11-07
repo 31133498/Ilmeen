@@ -85,7 +85,18 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
 }
+
 CORS_ALLOW_ALL_ORIGINS = True
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
+}
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -154,4 +165,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+AUTH_USER_MODEL = 'users.CustomUser'
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')

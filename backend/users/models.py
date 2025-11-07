@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.utils import timezone
 
@@ -25,6 +25,9 @@ class CustomUser(AbstractUser):
     current_level = models.CharField(max_length=50, default='beginner', blank=True)
     learning_goals = models.TextField(blank=True)
     preferred_language = models.CharField(max_length=10, default='en', blank=True)  # en, ar, yo
+    
+    groups = models.ManyToManyField(Group, related_name='user_groups')
+    user_permissions = models.ManyToManyField(Permission, related_name="user_permissions")
     
     def __str__(self):
         return f"{self.username} ({self.get_user_type_display()})"
