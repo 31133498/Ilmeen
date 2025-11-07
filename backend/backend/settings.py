@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
-    'rest_framework_simplejwt',
+    'drf_spectacular',
     'corsheaders',
     
     'users',
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheadres.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +83,30 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# DRF Spectacular settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Ilmeen Arabic Learning Platform API',
+    'DESCRIPTION': 'AI-powered Arabic learning platform with OCR, translation, and grammar analysis',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'displayRequestDuration': True,
+    },
+    'TAGS': [
+        {'name': 'Authentication', 'description': 'User registration and authentication'},
+        {'name': 'Users', 'description': 'User profiles and management'},
+        {'name': 'OCR', 'description': 'Arabic text extraction from images'},
+        {'name': 'Analysis', 'description': 'Text analysis and translation'},
+        {'name': 'TTS', 'description': 'Text-to-speech conversion'},
+        {'name': 'Chat', 'description': 'AI-powered chat assistance'},
+        {'name': 'Progress', 'description': 'Learning progress tracking'},
     ],
 }
 

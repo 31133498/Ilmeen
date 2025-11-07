@@ -1,6 +1,7 @@
 annotated-types==0.7.0
 anyio==4.11.0
 asgiref==3.10.0
+attrs==25.4.0
 cachetools==6.2.1
 certifi==2025.10.5
 charset-normalizer==3.4.4
@@ -11,6 +12,7 @@ Django==5.2.8
 django-cors-headers==4.9.0
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
+drf-spectacular==0.29.0
 google-auth==2.43.0
 google-genai==1.49.0
 gTTS==2.5.4
@@ -18,8 +20,10 @@ h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
 idna==3.11
-numpy==2.3.4
-opencv-python-headless==4.6.0.66
+inflection==0.5.1
+jsonschema==4.25.1
+jsonschema-specifications==2025.9.1
+numpy==1.24.3
 packaging==25.0
 pillow==12.0.0
 protobuf==4.25.8
@@ -32,7 +36,10 @@ PyJWT==2.10.1
 pyparsing==3.2.5
 pytesseract==0.3.13
 python-dotenv==1.2.1
+PyYAML==6.0.3
+referencing==0.37.0
 requests==2.32.5
+rpds-py==0.28.0
 rsa==4.9.1
 sniffio==1.3.1
 spitch==1.41.0
