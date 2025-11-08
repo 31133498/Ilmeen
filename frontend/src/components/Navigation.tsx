@@ -36,7 +36,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate,
             </button>
           )}
           <div className="text-xl font-bold" style={{fontFamily: "'Amiri', serif"}}>
-            عربي | Ilmeen
+            إلمين | Ilmeen
           </div>
         </div>
 
